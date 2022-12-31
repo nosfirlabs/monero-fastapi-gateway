@@ -1,0 +1,35 @@
+<html lang="en">
+    <head>
+        <title>Monero Payment</title>
+    </head>
+    <body>
+        <h1>Monero Payment</h1>
+        <p>Please send {{ payment_amount }} Monero to the following wallet address:</p>
+        <p>{{ wallet_address }}</p>
+        <button id="check-payment-button">Check Payment</button>
+    </body>
+<script>
+    // Get button element
+    const button = document.getElementById("check-payment-button");
+
+    // Add click event listener
+    button.addEventListener("click", function() {
+        // Send request to FastAPI endpoint to check payment
+        fetch("/check_payment/{{ wallet_address }}")
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                // Check if payment has been received and is confirmed
+                if (data.received >= {{ payment_amount }} && data.confirmed) {
+                    // Payment has been received and is confirmed
+                    // Confirm order
+                    console.log("Order confirmed");
+                } else {
+                    // Payment has not been received or is not confirmed
+                    console.log("Payment not received or not confirmed");
+                }
+            });
+    });
+</script>
+
+</html>

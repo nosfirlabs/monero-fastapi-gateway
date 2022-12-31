@@ -1,0 +1,89 @@
+<html>
+<head>
+    <title>Monero Payment Service</title>
+    <style>
+        body {
+            background-color: #1d1d1d;
+            color: #f0f0f0;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        h1 {
+            color: #ff8100;
+        }
+
+        button {
+            background-color: #ff8100;
+            color: #f0f0f0;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #f0f0f0;
+            color: #1d1d1d;
+        }
+
+        button:active {
+            background-color: #e57373;
+            color: #f0f0f0;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Monero Payment Service</h1>
+    <p>This service allows customers to make payments using Monero.</p>
+    <div class="buttons">
+        <a href="/payment">
+            <button>Make Payment</button>
+        </a>
+        <button id="check-payment-button">Check Payment</button>
+    </div>
+    <p>To make a payment, click the "Make Payment" button. This will take you to a page where you can view the Monero
+        wallet address and payment amount for your order.</p>
+    <p>To check the status of your payment, click the "Check Payment" button. This will send a request to the server to
+        check the payment status and update the page accordingly.</p>
+    <p>Payment status: <span id="payment-status"></span></p>
+</div>
+
+</body>
+<script>
+    // Get button element
+    const button = document.getElementById("check-payment-button");
+
+    // Add click event listener
+    button.addEventListener("click", function () {
+        // Send request to FastAPI endpoint to check payment
+        fetch("/check_payment/{{ wallet_address }}")
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                // Check if payment has been received and is confirmed
+                if (data.received >= {{
+                    payment_amount
+                }
+            } &&
+                data.confirmed
+            )
+                {
+                    // Payment has been received and is confirmed
+                    // Update page to show that payment has been received and is confirmed
+                    console.log("Payment received and confirmed");
+                    document.getElementById("payment-status").innerHTML = "Payment received and confirmed";
+                }
+            else
+                {
+                    // Payment has not been received or is not confirmed
+                    console.log("Payment not received or not confirmed");
+                    document.getElementById("payment-status").innerHTML = "Payment not received or not confirmed";
+                }
+            });
+    });
+</script>
+
+</html>
