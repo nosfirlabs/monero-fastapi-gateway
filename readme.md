@@ -52,7 +52,8 @@ This will return a JSON object with the payment amount received and confirmation
 `{
     "received": 1000000,
     "confirmed": true
-}`## Troubleshooting
+}`
+## Troubleshooting
 
 If you encounter any problems while using the project, here are some possible solutions:
 
